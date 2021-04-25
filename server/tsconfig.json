@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "lib": ["es2018"],
+    "target": "es2018",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "emitDecoratorMetadata": true,
+    "inlineSourceMap": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "esModuleInterop": true
+  }
+}

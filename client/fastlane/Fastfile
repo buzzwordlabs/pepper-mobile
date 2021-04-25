@@ -1,0 +1,93 @@
+fastlane_version '2.140.0'
+fastlane_require 'dotenv'
+
+# Make sure on master unless described otherwise
+before_all do |options|
+  Dotenv.overload('.env')
+  current_branch = sh("git rev-parse --abbrev-ref HEAD")
+  if ![:ignore_branch] && current_branch != "master"
+    response = UI.confirm("Your current branch isn't \"master\", it's \"#{current_branch}\". Would you like to continue?")
+    if !response
+      UI.user_error!("Aborting")
+    end
+  elsif [:ignore_branch]
+    UI.message("Acknowledging ignore_branch...")
+  else
+    ensure_git_branch
+    ensure_git_status_clean
+    git_pull
+  end
+end
+
+platform :ios do
+  desc 'Fetch and upload dSYM files from most recent version to Bugsnag'
+  lane :refresh_dsyms do
+    download_dsyms(
+      version: "latest",
+      username: ENV["APPLE_ID_EMAIL"],
+      team_name: ENV["APPLE_TEAM_NAME"],
+      app_identifier: ENV["APPLE_APP_ID"]
+    )
+    upload_symbols_to_bugsnag              # Upload them to Bugsnag
+    clean_build_artifacts                  # Delete the local dSYM files
+  end
+
+  desc 'Fetch Apple certificates and provisioning profiles'
+  lane :certificates do
+    match(app_identifier: ENV["APPLE_APP_ID"], type: 'development', readonly: true)
+    match(app_identifier: ENV["APPLE_APP_ID"], type: 'appstore', readonly: true)
+  end
+
+  # TODO: Figure out how to make this lane work
+  # desc 'Build ios'
+  # private_lane :build_release do
+  #   certificates
+  #   gym(
+  #     scheme: ENV["APPLE_SCHEME"],
+  #     project: ENV["XCODE_PROJ_PATH"],
+  #     configuration: "Release"
+  #   )
+  # end
+
+  desc 'Increment build and version number'
+  lane :bump_ios do
+    current_ios_app_version = get_version_number(xcodeproj: ENV["XCODE_PROJ_PATH"])
+    current_ios_build_version = get_build_number(xcodeproj: ENV["XCODE_PROJ_PATH"])
+    new_ios_app_version = UI.input("What version would you like to set? Current: #{current_ios_app_version}")
+    new_ios_build_version = UI.input("What build version would you like to set? Current: #{current_ios_build_version}")
+    if current_ios_app_version === new_ios_app_version && current_ios_build_version === new_ios_build_version
+      UI.user_error!("Error: New app version and build version cannot be the same")
+    end
+    if current_ios_app_version === new_ios_app_version
+      UI.message("Keeping app version #{current_ios_app_version} ...")
+    else
+      UI.message("Changing app version #{current_ios_app_version} -> #{new_ios_app_version} ...")
+    end
+    UI.message("Changing build version #{current_ios_build_version} -> #{new_ios_build_version} ...")
+    UI.success("Done!")
+  end
+
+  lane :test do
+    puts "Testing"
+  end
+end
+
+project_dir = './android'
+platform :android do
+  desc "Runs all the tests"
+  lane :test do
+    gradle(task: "test", project_dir: project_dir)
+  end
+
+  desc "Submit a new Beta Build to Play Store"
+  lane :beta do
+    gradle(task: "clean bundleRelease", project_dir: project_dir)
+    upload_to_play_store(track: 'beta')
+  end
+
+  desc "Deploy a new version to the Google Play"
+  lane :deploy do
+    gradle(task: "clean bundleRelease", project_dir: project_dir)
+    upload_to_play_store
+  end
+end

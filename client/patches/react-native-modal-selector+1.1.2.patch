@@ -1,0 +1,53 @@
+diff --git a/node_modules/react-native-modal-selector/index.d.ts b/node_modules/react-native-modal-selector/index.d.ts
+index 872fdd1..77a20ca 100644
+--- a/node_modules/react-native-modal-selector/index.d.ts
++++ b/node_modules/react-native-modal-selector/index.d.ts
+@@ -64,6 +64,8 @@ interface IModalSelectorProps<TOption> {
+    */
+   componentExtractor?: (option: TOption) => React.ReactNode; 
+ 
++  maxFontSizeMultiplier?: number;
++
+   /**
+    * Control open/close state of modal
+    *
+diff --git a/node_modules/react-native-modal-selector/index.js b/node_modules/react-native-modal-selector/index.js
+index fc66b69..5bbf9a8 100644
+--- a/node_modules/react-native-modal-selector/index.js
++++ b/node_modules/react-native-modal-selector/index.js
+@@ -198,7 +198,7 @@ export default class ModalSelector extends React.Component {
+     renderSection = (section) => {
+         const optionComponent = this.props.componentExtractor(section);
+         let component = optionComponent || (
+-          <Text style={[styles.sectionTextStyle,this.props.sectionTextStyle]}>{this.props.labelExtractor(section)}</Text>
++          <Text style={[styles.sectionTextStyle,this.props.sectionTextStyle]} maxFontSizeMultiplier={this.props.maxFontSizeMultiplier || 2}>{this.props.labelExtractor(section)}</Text>
+         );
+ 
+         return (
+@@ -214,7 +214,7 @@ export default class ModalSelector extends React.Component {
+         const isSelectedItem = optionLabel === this.state.selected;
+ 
+         let component = optionComponent || (
+-          <Text style={[styles.optionTextStyle,this.props.optionTextStyle,isSelectedItem && this.props.selectedItemTextStyle]} {...this.props.optionTextPassThruProps}>
++          <Text style={[styles.optionTextStyle,this.props.optionTextStyle,isSelectedItem && this.props.selectedItemTextStyle]} {...this.props.optionTextPassThruProps} maxFontSizeMultiplier={this.props.maxFontSizeMultiplier || 2}>
+               {optionLabel}
+           </Text>
+         );
+@@ -271,7 +271,7 @@ export default class ModalSelector extends React.Component {
+                     <View style={[styles.cancelContainer, this.props.cancelContainerStyle]}>
+                         <TouchableOpacity onPress={this.close} activeOpacity={this.props.touchableActiveOpacity} accessible={this.props.cancelButtonAccessible} accessibilityLabel={this.props.cancelButtonAccessibilityLabel}>
+                             <View style={[styles.cancelStyle, this.props.cancelStyle]}>
+-                                <Text style={[styles.cancelTextStyle,this.props.cancelTextStyle]}>{this.props.cancelText}</Text>
++                                <Text style={[styles.cancelTextStyle,this.props.cancelTextStyle]} maxFontSizeMultiplier={this.props.maxFontSizeMultiplier || 2}>{this.props.cancelText}</Text>
+                             </View>
+                         </TouchableOpacity>
+                     </View>
+@@ -288,7 +288,7 @@ export default class ModalSelector extends React.Component {
+             [styles.initValueTextStyle, this.props.initValueTextStyle] : [styles.selectTextStyle, this.props.selectTextStyle];
+         return (
+             <View style={[styles.selectStyle, this.props.selectStyle]}>
+-                <Text style={initSelectStyle} {...this.props.selectTextPassThruProps}>{this.state.selected}</Text>
++                <Text style={initSelectStyle} {...this.props.selectTextPassThruProps} maxFontSizeMultiplier={this.props.maxFontSizeMultiplier || 2}>{this.state.selected}</Text>
+             </View>
+         );
+     }

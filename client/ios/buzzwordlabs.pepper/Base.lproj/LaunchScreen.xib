@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="15400" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" launchScreen="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15404"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="SplashIcons" translatesAutoresizingMaskIntoConstraints="NO" id="8OK-6j-GBF">
+                    <rect key="frame" x="0.0" y="0.0" width="480" height="480"/>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <accessibility key="accessibilityConfiguration">
+                <accessibilityTraits key="traits" image="YES"/>
+            </accessibility>
+            <constraints>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" constant="20" id="2zS-na-rkW"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="3Xj-iB-qjH"/>
+                <constraint firstAttribute="bottom" secondItem="8OK-6j-GBF" secondAttribute="bottom" id="VKh-Xv-Zx8"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="XcB-Qu-fKa"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="centerY" secondItem="iN0-l3-epB" secondAttribute="centerY" id="Ymh-kv-Nvt"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="h7e-iL-SOx"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="centerX" secondItem="iN0-l3-epB" secondAttribute="centerX" id="ndc-2K-0Ye"/>
+                <constraint firstAttribute="trailing" secondItem="8OK-6j-GBF" secondAttribute="trailing" id="pdK-Fu-haq"/>
+                <constraint firstItem="8OK-6j-GBF" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="xC3-ZI-odm"/>
+            </constraints>
+            <nil key="simulatedStatusBarMetrics"/>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="547.82608695652175" y="454.6875"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="SplashIcons" width="512" height="512"/>
+    </resources>
+</document>

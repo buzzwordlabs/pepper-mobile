@@ -1,0 +1,22 @@
+diff --git a/node_modules/react-native-slider/src/Slider.js b/node_modules/react-native-slider/src/Slider.js
+index 37deee5..f2d0e72 100644
+--- a/node_modules/react-native-slider/src/Slider.js
++++ b/node_modules/react-native-slider/src/Slider.js
+@@ -190,7 +190,7 @@ export default class Slider extends PureComponent {
+     value: new Animated.Value(this.props.value),
+   };
+ 
+-  componentWillMount() {
++  UNSAFE_componentWillMount() {
+     this._panResponder = PanResponder.create({
+       onStartShouldSetPanResponder: this._handleStartShouldSetPanResponder,
+       onMoveShouldSetPanResponder: this._handleMoveShouldSetPanResponder,
+@@ -202,7 +202,7 @@ export default class Slider extends PureComponent {
+     });
+   };
+ 
+-  componentWillReceiveProps(nextProps) {
++  UNSAFE_componentWillReceiveProps(nextProps) {
+     var newValue = nextProps.value;
+ 
+     if (this.props.value !== newValue) {

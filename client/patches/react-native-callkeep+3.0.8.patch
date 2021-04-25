@@ -1,0 +1,67 @@
+diff --git a/node_modules/react-native-callkeep/android/src/main/java/io/wazo/callkeep/RNCallKeepModule.java b/node_modules/react-native-callkeep/android/src/main/java/io/wazo/callkeep/RNCallKeepModule.java
+index 15b9cce..a76e299 100644
+--- a/node_modules/react-native-callkeep/android/src/main/java/io/wazo/callkeep/RNCallKeepModule.java
++++ b/node_modules/react-native-callkeep/android/src/main/java/io/wazo/callkeep/RNCallKeepModule.java
+@@ -221,7 +221,8 @@ public class RNCallKeepModule extends ReactContextBaseJavaModule {
+             return;
+         }
+         if (currentActivity == null) {
+-            promise.reject(E_ACTIVITY_DOES_NOT_EXIST, "Activity doesn't exist");
++            hasPhoneAccountPromise = promise;
++            hasPhoneAccountPromise.resolve(true);
+             return;
+         }
+         String[] optionalPermsArr = new String[optionalPermissions.size()];
+diff --git a/node_modules/react-native-callkeep/index.d.ts b/node_modules/react-native-callkeep/index.d.ts
+index 65a19e9..1f41d6d 100644
+--- a/node_modules/react-native-callkeep/index.d.ts
++++ b/node_modules/react-native-callkeep/index.d.ts
+@@ -13,13 +13,17 @@ export type Events =
+ 
+ type HandleType = 'generic' | 'number' | 'email';
+ 
++export type MaximumCallGroups = '1'
++export type MaximumCallsPerCallGroup = '1'
++export type SupportsVideo = false
++
+ interface IOptions {
+   ios: {
+     appName: string,
+     imageName?: string,
+-    supportsVideo: false,
+-    maximumCallGroups: '1',
+-    maximumCallsPerCallGroup: '1'
++    supportsVideo: SupportsVideo,
++    maximumCallGroups: MaximumCallGroups,
++    maximumCallsPerCallGroup: MaximumCallsPerCallGroup
+     ringtoneSound?: string,
+   },
+   android: {
+@@ -166,7 +170,7 @@ export default class RNCallKeep {
+ 
+   }
+ 
+-  static setCurrentCallActive() {
++  static setCurrentCallActive(UUID: string) {
+ 
+   }
+ 
+diff --git a/node_modules/react-native-callkeep/index.js b/node_modules/react-native-callkeep/index.js
+index b500b10..a587e49 100644
+--- a/node_modules/react-native-callkeep/index.js
++++ b/node_modules/react-native-callkeep/index.js
+@@ -1,4 +1,4 @@
+-import { NativeModules, Platform, Alert } from 'react-native';
++import { NativeModules, Platform, Alert, AppState } from 'react-native';
+ 
+ import { listeners } from './actions'
+ 
+@@ -204,7 +204,7 @@ class RNCallKeep {
+       return resolve(false);
+     }
+ 
+-    Alert.alert(
++    if (AppState.currentState === 'active') Alert.alert(
+       options.alertTitle,
+       options.alertDescription,
+       [

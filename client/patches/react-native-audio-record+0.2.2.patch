@@ -1,0 +1,16 @@
+diff --git a/node_modules/react-native-audio-record/ios/RNAudioRecord.m b/node_modules/react-native-audio-record/ios/RNAudioRecord.m
+index 7304653..1f79d9f 100644
+--- a/node_modules/react-native-audio-record/ios/RNAudioRecord.m
++++ b/node_modules/react-native-audio-record/ios/RNAudioRecord.m
+@@ -21,8 +21,9 @@ @implementation RNAudioRecord
+     _recordState.mSelf = self;
+     
+     NSString *fileName = options[@"wavFile"] == nil ? @"audio.wav" : options[@"wavFile"];
+-    NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
+-    _filePath = [NSString stringWithFormat:@"%@/%@", docDir, fileName];
++    // NSString *docDir = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
++    NSURL *docDir = [NSURL fileURLWithPath:NSTemporaryDirectory()];
++    _filePath = [NSString stringWithFormat:@"%@%@", docDir, fileName];
+ }
+ 
+ RCT_EXPORT_METHOD(start) {

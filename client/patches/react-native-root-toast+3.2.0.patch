@@ -1,0 +1,21 @@
+diff --git a/node_modules/react-native-root-toast/lib/Toast.js b/node_modules/react-native-root-toast/lib/Toast.js
+index f765306..6b997ea 100644
+--- a/node_modules/react-native-root-toast/lib/Toast.js
++++ b/node_modules/react-native-root-toast/lib/Toast.js
+@@ -32,14 +32,14 @@ class Toast extends Component {
+ 
+     _toast = null;
+ 
+-    componentWillMount = () => {
++    UNSAFE_componentWillMount = () => {
+         this._toast = new RootSiblings(<ToastContainer
+             {...this.props}
+             duration={0}
+         />);
+     };
+ 
+-    componentWillReceiveProps = nextProps => {
++    UNSAFE_componentWillReceiveProps = nextProps => {
+         this._toast.update(<ToastContainer
+             {...nextProps}
+             duration={0}

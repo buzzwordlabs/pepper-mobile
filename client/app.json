@@ -1,0 +1,16 @@
+{
+  "displayName": "Pepper",
+  "name": "buzzwordlabs.pepper",
+  "slug": "pepper-mobile",
+  "privacy": "public",
+  "platforms": ["ios", "android"],
+  "version": "1.0.0",
+  "orientation": "portrait",
+  "ios": {
+    "bundleIdentifier": "com.buzzwordlabs.pepper"
+  },
+  "android": {
+    "package": "com.buzzwordlabs.pepper",
+    "googleServicesFile": "./google-services.json"
+  }
+}
